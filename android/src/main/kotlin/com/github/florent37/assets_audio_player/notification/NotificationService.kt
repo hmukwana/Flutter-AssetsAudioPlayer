@@ -346,8 +346,14 @@ class NotificationService : Service() {
                     it.setSubText(action.audioMetas.album)
                 }
             }
-            .setContentIntent(PendingIntent.getBroadcast(this, 0,
-                createReturnIntent(forAction = NotificationAction.ACTION_SELECT, forPlayer = action.playerId, audioMetas = action.audioMetas), FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT))
+            // Set Content Intent to open app when the notification body is clicked
+            .setContentIntent(PendingIntent.getActivity(
+                this, 0,
+                packageManager.getLaunchIntentForPackage(packageName)?.apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                },
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            ))
             .also {
                 if (bitmap != null) {
                     it.setLargeIcon(bitmap)
