@@ -352,7 +352,6 @@ class NotificationService : Service() {
                 packageManager.getLaunchIntentForPackage(packageName)?.apply {
                     // Use these flags to bring the existing activity to the foreground
                     addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    action = Intent.ACTION_MAIN // Optional: Set the action to MAIN if needed
                     addCategory(Intent.CATEGORY_LAUNCHER) // Optional: Add the LAUNCHER category if needed
                 },
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
